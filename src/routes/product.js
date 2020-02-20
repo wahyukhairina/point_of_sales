@@ -11,9 +11,9 @@ const { getAll, getDetail, insertData, updateData, deleteData } = require('../co
 
 Route
   .get('/', authentication, authorization, getAll)
-  .get('/:productId', getDetail)
-  .post('/', uploadFiles, insertData)
-  .patch('/:productId', updateData)
-  .delete('/:productId', deleteData)
+  .get('/:productId', authentication, authorization, getDetail)
+  .post('/', uploadFiles, authentication, authorization, insertData)
+  .patch('/:productId', authentication, authorization, uploadFiles, updateData)
+  .delete('/:productId', authentication, authorization, deleteData)
 
 module.exports = Route

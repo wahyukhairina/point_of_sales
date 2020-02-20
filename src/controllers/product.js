@@ -4,10 +4,10 @@ const miscHelper = require('../helpers')
 module.exports = {
   getAll: async (request, response) => {
     try {
-      const searchName = request.query.searchName || ''
-      const sort = request.query.sort || 'id'
-      const page = request.query.page || 1
-      const limit = request.query.limit || 25
+      const searchName = request.query.searchName
+      const sort = request.query.sort
+      const page = request.query.page
+      const limit = request.query.limit
       const data = {
         searchName,
         sort,
@@ -15,7 +15,6 @@ module.exports = {
         limit
       }
       const result = await productModel.getAll(data)
-      // const result = result1.slice(startIndex, endIndex)
       miscHelper.response(response, 200, result)
     } catch (error) {
       console.log(error)
@@ -35,7 +34,6 @@ module.exports = {
 
   insertData: async (request, response) => {
     try {
-      console.log(request.file)
       const data = {
         product_name: request.body.product_name,
         desc: request.body.desc,
@@ -59,7 +57,7 @@ module.exports = {
       const data = {
         product_name: request.body.product_name,
         desc: request.body.desc,
-        photo: request.body.photo,
+        photo: `http://localhost:8004/uploads/${request.file.filename}`,
         price: request.body.price,
         category: request.body.category,
         stock: request.body.stock,
