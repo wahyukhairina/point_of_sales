@@ -85,7 +85,8 @@ module.exports = {
     try {
       const productId = request.params.productId
       const result = await productModel.deleteData(productId)
-      miscHelper.response(response, 200, result)
+      const iniid = parseInt(productId)
+      miscHelper.response(response, 200, iniid)
     } catch (error) {
       console.log(error)
       miscHelper.customErrorResponse(response, 404, 'Internal server error!')

@@ -1,6 +1,5 @@
 const models = require('../models/order')
 const helpers = require('../helpers')
-const connection = require('../config/mysql')
 const uuid = require('uuid/v4')
 
 module.exports = {
