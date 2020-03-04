@@ -4,21 +4,31 @@ const miscHelper = require('../helpers')
 module.exports = {
   getAll: async (request, response) => {
     try {
-      const searchName = request.query.searchName
-      const sort = request.query.sort
-      const page = request.query.page
-      const limit = request.query.limit
+      const searchName = request.query.searchName || ''
+      const sort = request.query.sort || 'name'
+      const type = request.query.type || 'ASC'
+      const page = request.query.page || 1
+      const limit = request.query.limit || 2
       const data = {
         searchName,
         sort,
+        type,
         page,
         limit
       }
+      const totalData = await productModel.count(data)
+     
+      // console.log(pages)
       const result = await productModel.getAll(data)
-      miscHelper.response(response, 200, result)
+      const totalPages = Math.ceil(totalData / limit)
+      const pager = {
+        totalPages
+      }
+      miscHelper.customResponse(response, 200, result, pager)
+
     } catch (error) {
       console.log(error)
-      miscHelper.customErrorResponse(response, 404, 'Internal server error!')
+      miscHelper.customErrorResponse(response, 400, 'Internal server error')
     }
   },
   getDetail: async (request, response) => {
@@ -35,9 +45,9 @@ module.exports = {
   insertData: async (request, response) => {
     try {
       const data = {
-        product_name: request.body.product_name,
+        name: request.body.name,
         desc: request.body.desc,
-        photo: `http://localhost:8004/uploads/${request.file.filename}`,
+        image: `http://localhost:8006/uploads/${request.file.filename}`,
         price: request.body.price,
         category: request.body.category,
         stock: request.body.stock,
@@ -45,19 +55,19 @@ module.exports = {
         data_updated: new Date()
       }
       const result = await productModel.insertData(data)
-      miscHelper.response(response, 200, result)
+      miscHelper.response(response, 200, data)
     } catch (error) {
       console.log(error)
-      miscHelper.customErrorResponse(response, 404, 'Internal server error!')
+      miscHelper.customErrorResponse(response, 404, 'extention not supported!')
     }
   },
 
   updateData: async (request, response) => {
     try {
       const data = {
-        product_name: request.body.product_name,
+        name: request.body.name,
         desc: request.body.desc,
-        photo: `http://localhost:8004/uploads/${request.file.filename}`,
+        image: `http://localhost:8006/uploads/${request.file.filename}`,
         price: request.body.price,
         category: request.body.category,
         stock: request.body.stock,
@@ -65,7 +75,7 @@ module.exports = {
       }
       const productId = request.params.productId
       const result = await productModel.updateData(data, productId)
-      miscHelper.response(response, 200, result)
+      miscHelper.response(response, 200, data)
     } catch (error) {
       console.log(error)
       miscHelper.customErrorResponse(response, 404, 'Internal server error!')

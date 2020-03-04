@@ -22,8 +22,8 @@ const upload = multer({
   fileFilter
 })
 
-const uploadImages = upload.single('photo')
+const uploadImages = upload.single('image')
 
 module.exports = {
-  uploadFiles: uploadImages
+  uploadImages
 }

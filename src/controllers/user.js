@@ -13,6 +13,7 @@ module.exports = {
         username: request.body.username,
         salt: hashPassword.salt,
         password: hashPassword.passwordHash,
+        status: request.body.status,
         data_added: new Date(),
         data_updated: new Date()
       }
@@ -47,6 +48,43 @@ module.exports = {
       response.json(dataUser)
     } else {
       response.json({ message: 'Login error!' })
+    }
+  },
+  getUser: async (request, response) => {
+    try {
+      const searchName = request.query.name || ''
+      const result = await userModel.getUser(searchName)
+      response.json(result)
+    } catch (error) {
+      console.log(error)
+    }
+  },
+  deleteUser: async (request, response) => {
+    try {
+      const userId = request.params.userId
+      const result = await userModel.deleteUser(userId)
+      response.json(result)
+    } catch (error) {
+      response.json({ message: 'delete Error'})
+    }
+  },
+  updateUser: async (request, response) => {
+    try {
+      const salt = helper.generateSalt(18)
+      const hashPassword = helper.setPassword(request.body.password, salt)
+      const userId = request.params.userId
+      const data = {
+        name: request.body.name,
+        username: request.body.username,
+        salt: hashPassword.salt,
+        password: hashPassword.passwordHash,
+        status: request.body.status,
+        data_updated: new Date()
+      }
+      const result = await userModel.updateUser(data, userId)
+      response.json(result)
+    } catch (error) {
+      console.log(error)
     }
   }
 }

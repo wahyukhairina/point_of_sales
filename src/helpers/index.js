@@ -18,6 +18,21 @@ module.exports = {
 
     result.status = status || 200
     result.result = data
+    return response.status(result.status).json(result)
+  },
+  
+  customResponse: (response, status, data, pagination) => {
+    var page = []
+    var result = {}
+
+    for (var i = 1; i <= pagination.totalPages; i++) {
+      page[i - 1] = i
+    }
+    
+    result.status = status || 200
+    result.result = data
+    result.totalpages = page
+    console.log(page)
 
     return response.status(result.status).json(result)
   },
