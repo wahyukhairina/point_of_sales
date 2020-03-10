@@ -1,5 +1,6 @@
 const userModel = require('../models/user')
 const helper = require('../helpers/')
+const miscHelper = require('../helpers')
 const JWT = require('jsonwebtoken')
 const { JWT_KEY } = require('../config')
 
@@ -18,7 +19,8 @@ module.exports = {
         data_updated: new Date()
       }
       const result = await userModel.register(data)
-      response.json(result)
+      data.user_id = result.insertId
+      response.json(data)
     } catch (error) {
       console.log(error)
     }
@@ -38,7 +40,7 @@ module.exports = {
       const token = JWT.sign({
         username: dataUser.username,
         user_id: dataUser.user_id
-      }, JWT_KEY, { expiresIn: '1h' })
+      }, JWT_KEY, { expiresIn: '5h' })
 
       delete dataUser.salt
       delete dataUser.password
@@ -63,8 +65,9 @@ module.exports = {
     try {
       const userId = request.params.userId
       const result = await userModel.deleteUser(userId)
-      response.json(result)
-    } catch (error) {
+      const convert = parseInt(userId)
+      miscHelper.response(response, 200, convert)
+    } catch (error){
       response.json({ message: 'delete Error'})
     }
   },

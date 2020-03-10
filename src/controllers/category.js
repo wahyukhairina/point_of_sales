@@ -15,7 +15,7 @@ module.exports = {
     try {
       const categoryId = request.params.categoryId
       const result = await categoryModel.deleteCategory(categoryId)
-      response.json(result)
+      miscHelper.response(response, 200, categoryId)
     } catch (error) {
       response.json({ message: 'delete Error' })
     }
@@ -28,6 +28,7 @@ module.exports = {
         data_updated: new Date()
       }
       const result = await categoryModel.insertCategory(data)
+      data.id = result.insertId
       miscHelper.response(response, 200, data)
     } catch (error) {
       console.log(error)
