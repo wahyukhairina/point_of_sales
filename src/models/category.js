@@ -11,17 +11,23 @@ module.exports = {
   },
   deleteCategory: (categoryId) => {
     return new Promise((resolve, reject) => {
-      connection.query('DELETE FROM category WHERE id = ?', categoryId, (error, result) => {
+      connection.query('DELETE FROM category WHERE id = ?', categoryId, (error) => {
         if (error) reject(new Error(error))
-        resolve(result)
+        connection.query('SELECT * FROM   category', (error, result) => {
+          if (error) reject (new Error(error))
+          resolve(result)
+        })
       })
     })
   },
   insertCategory: (data) => {
     return new Promise((resolve, reject) => {
-      connection.query('INSERT INTO category SET ?', data, (error, result) => {
+      connection.query('INSERT INTO category SET ?', data, (error) => {
         if (error) reject(new Error(error))
-        resolve(result)
+        connection.query('SELECT * FROM   category', (error, result) => {
+          if (error) reject (new Error(error))
+          resolve(result)
+        })
       })
     })
   },
@@ -29,7 +35,10 @@ module.exports = {
     return new Promise((resolve, reject) => {
       connection.query('UPDATE category SET ? WHERE id = ?', [data,categoryId], (error, result) => {
         if (error) reject(new Error(error))
-        resolve(result)
+        connection.query('SELECT * FROM   category', (error, result) => {
+          if (error) reject (new Error(error))
+          resolve(result)
+        })
       })
     })
   }

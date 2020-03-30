@@ -15,7 +15,7 @@ module.exports = {
     try {
       const categoryId = request.params.categoryId
       const result = await categoryModel.deleteCategory(categoryId)
-      miscHelper.response(response, 200, categoryId)
+      miscHelper.response(response, 200, result)
     } catch (error) {
       response.json({ message: 'delete Error' })
     }
@@ -29,7 +29,7 @@ module.exports = {
       }
       const result = await categoryModel.insertCategory(data)
       data.id = result.insertId
-      miscHelper.response(response, 200, data)
+      miscHelper.response(response, 200, result)
     } catch (error) {
       console.log(error)
       miscHelper.customErrorResponse(response, 404, 'extention not supported!')
@@ -43,7 +43,7 @@ module.exports = {
       }
       const categoryId = request.params.categoryId
       const result = await categoryModel.updateCategory(data, categoryId)
-      miscHelper.response(response, 200, data)
+      miscHelper.response(response, 200, result)
     } catch (error) {
       console.log(error)
       miscHelper.customErrorResponse(response, 404, 'Internal server error!')

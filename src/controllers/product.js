@@ -1,6 +1,8 @@
 const productModel = require('../models/product')
 const miscHelper = require('../helpers')
 const uuid = require ('uuid/v4')
+require('dotenv/config')
+const { IP, port } = require('../config/index')
 
 module.exports = {
   getAll: async (request, response) => {
@@ -8,7 +10,7 @@ module.exports = {
       const searchName = request.query.searchName || ''
       const sort = request.query.sort || 'product.name'
       const type = request.query.type || 'ASC'
-      const pagequery = request.query.page
+      const pagequery = request.query.page || 1
       const page = (pagequery - 1) || 0
       const limit = request.query.limit || 6
       const data = {
@@ -19,8 +21,6 @@ module.exports = {
         limit
       }
       const totalData = await productModel.count(data)
-     
-      // console.log(pages)
       const result = await productModel.getAll(data)
       const totalPages = Math.ceil(totalData / limit)
       const pager = {
@@ -51,7 +51,7 @@ module.exports = {
         id,
         name: request.body.name,
         desc: request.body.desc,
-        image: `http://localhost:8006/uploads/${request.file.filename}`,
+        image: `${IP}:${port}/uploads/${request.file.filename}`,
         price: request.body.price,
         category: request.body.category,
         stock: request.body.stock,
