@@ -12,7 +12,7 @@ module.exports = {
       const type = request.query.type || 'ASC'
       const pagequery = request.query.page || 1
       const page = (pagequery - 1) || 0
-      const limit = request.query.limit || 6
+      const limit = request.query.limit || 100
       const data = {
         searchName,
         sort,
