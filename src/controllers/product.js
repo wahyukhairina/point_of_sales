@@ -69,8 +69,21 @@ module.exports = {
   updateData: async (request, response) => {
     try {
       const productId = request.params.productId
+      if(!request.file || Object.keys(request.file).length === 0 ) {
+        console.log(request.body)
+        const data = {
+        name: request.body.name,
+        desc: request.body.desc,
+        price: request.body.price,
+        category: request.body.category,
+        stock: request.body.stock,
+        data_updated: new Date()
+        }
+        console.log('aaaaa', data)
+        const result = await productModel.updateData(data, productId)
+        miscHelper.response(response, 200, result)
+      }  
       const data = {
-
         name: request.body.name,
         desc: request.body.desc,
         image: `http://localhost:8006/uploads/${request.file.filename}`,
@@ -79,19 +92,8 @@ module.exports = {
         stock: request.body.stock,
         data_updated: new Date()
       }
-      
       const result = await productModel.updateData(data, productId)
-      const hasil = {
-        productId,
-        name: request.body.name,
-        desc: request.body.desc,
-        image: `http://localhost:8006/uploads/${request.file.filename}`,
-        price: request.body.price,
-        category: request.body.category,
-        stock: request.body.stock,
-        data_updated: new Date()
-      }
-      miscHelper.response(response, 200, hasil)
+      miscHelper.response(response, 200, result)
     } catch (error) {
       console.log(error)
       miscHelper.customErrorResponse(response, 404, 'Internal server error!')
