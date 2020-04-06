@@ -2,8 +2,7 @@
 ![](https://img.shields.io/badge/Dependencies-Express-green.svg)
 ![](https://img.shields.io/badge/License-Beerware-yellowgreen.svg)
 
-# Coffee Shop with Express Npm
-
+# Totalin -Point of Sales Application-
 ---
 
 ## Table of Contents
