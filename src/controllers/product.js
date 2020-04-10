@@ -13,12 +13,14 @@ module.exports = {
       const pagequery = request.query.page || 1
       const page = (pagequery - 1) || 0
       const limit = request.query.limit || 100
+      const category = request.query.category || ''
       const data = {
         searchName,
         sort,
         type,
         page,
-        limit
+        limit,
+        category
       }
       const totalData = await productModel.count(data)
       const result = await productModel.getAll(data)

@@ -19,10 +19,11 @@ module.exports = {
     const name = data.searchName
     const page = data.page
     const limit = data.limit
+    const category = data.category
     // const pageInt = parseInt(page, 10)
     // const limitInt = parseInt(limit, 10)
     return new Promise((resolve, reject) => {
-      connection.query(`SELECT product.id as id, product.name as name, product.desc as description, product.image as image, product.price as price,  product.stock, category.name as category_name, category.id as category, product.data_added, product.data_updated from product INNER JOIN category WHERE category.id = product.category AND product.name LIKE '%${name}%' ORDER BY ${sort} ${type} LIMIT ${page},${limit}`, (error, result) => {
+      connection.query(`SELECT product.id as id, product.name as name, product.desc as description, product.image as image, product.price as price,  product.stock, category.name as category_name, category.id as category, product.data_added, product.data_updated from product INNER JOIN category ON category.id = product.category WHERE product.name LIKE '%${name}%' AND category.name LIKE '%${category}%' ORDER BY ${sort} ${type} LIMIT ${page},${limit}`, (error, result) => {
         if (error) reject(new Error(error))
         console.log(result)
         resolve(result)
@@ -74,7 +75,12 @@ module.exports = {
     return new Promise((resolve, reject) => {
       connection.query('UPDATE product SET ? WHERE id = ?', [data, productId], (error, result) => {
         if (error) reject(new Error(error))
-        resolve(result)
+        connection.query(`SELECT product.id as id, product.name as name, product.desc as description, product.image as image, product.price as price,  product.stock, category.name as category_name, category.id as category, product.data_added, product.data_updated from product INNER JOIN category WHERE category.id = product.category`, (error, result) => {
+          if (error) reject(new Error(error))
+          console.log('aaaaa', result)
+          resolve(result)
+        
+        })
       })
     })
   },
