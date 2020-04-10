@@ -84,7 +84,7 @@ module.exports = {
         console.log('aaaaa', data)
         const result = await productModel.updateData(data, productId)
         miscHelper.response(response, 200, result)
-      }  
+      }  else {
       const data = {
         name: request.body.name,
         desc: request.body.desc,
@@ -95,7 +95,7 @@ module.exports = {
         data_updated: new Date()
       }
       const result = await productModel.updateData(data, productId)
-      miscHelper.response(response, 200, result)
+      miscHelper.response(response, 200, result)}
     } catch (error) {
       console.log(error)
       miscHelper.customErrorResponse(response, 404, 'Internal server error!')
