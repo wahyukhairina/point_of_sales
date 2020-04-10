@@ -2,8 +2,7 @@
 ![](https://img.shields.io/badge/Dependencies-Express-green.svg)
 ![](https://img.shields.io/badge/License-Beerware-yellowgreen.svg)
 
-# Coffee Shop with Express Npm
-
+# Totalin -Point of Sales Application-
 ---
 
 ## Table of Contents
@@ -35,7 +34,7 @@ The application is written in Javascript language with MySQL (or MariaDB) ad the
 ## Installation
 ### Clone
 ```bash
-$ git clone https://github.com/wahyukhairina/poss_app
+$ git clone https://github.com/wahyukhairina/point_of_sales
 $ npm init
 $ npm install express
 $ npm install nodemon
@@ -48,8 +47,9 @@ $ npm install cors
 ```
 ### Create Environment Variable
 ```bash
-$ cp .env.example .env
-$ nano .env
+
+create .env file in your project root 
+copy this configuration
 ```
 ```bash
 DB_HOST = "YOUR HOST"
